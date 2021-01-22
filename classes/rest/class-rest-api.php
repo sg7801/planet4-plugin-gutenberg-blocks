@@ -15,6 +15,7 @@ use P4GBKS\Blocks\Articles;
 use P4GBKS\Blocks\SplitTwoColumns;
 use P4GBKS\Blocks\Happypoint;
 use P4GBKS\Blocks\Gallery;
+use P4GBKS\Blocks\Covers;
 
 /**
  * This class is just a place for add_endpoints to live.
@@ -248,6 +249,26 @@ class Rest_Api {
 					'callback'            => static function ( $fields ) {
 						$images = Gallery::get_images( $fields );
 						return rest_ensure_response( $images );
+					},
+				],
+			]
+		);
+
+		/**
+		 * Endpoint to retrieve the covers for the Covers block
+		 */
+		register_rest_route(
+			self::REST_NAMESPACE,
+			'/get-covers',
+			[
+				[
+					'permission_callback' => static function () {
+						return true;
+					},
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => static function ( $fields ) {
+						$covers = Covers::get_covers( $fields );
+						return rest_ensure_response( $covers );
 					},
 				],
 			]
