@@ -20,7 +20,7 @@ wp.domReady(() => {
   unregisterBlockStyle('core/button', 'fill');
 
   // Remove Take Action and Campaign covers styles for Covers block in campaigns
-  const postType = document.querySelector('form.metabox-base-form input#post_type').value;
+  const postType = wp.data.select('core/editor').getCurrentPostType();
   if (postType === 'campaign') {
     unregisterBlockStyle('planet4-blocks/covers', 'take-action');
     unregisterBlockStyle('planet4-blocks/covers', 'campaign');
