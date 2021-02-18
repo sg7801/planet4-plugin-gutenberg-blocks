@@ -1,9 +1,8 @@
-import { Covers, getCoversClassName } from './Covers';
+import { Covers } from './Covers';
 import { useCovers } from './useCovers';
 
 export const CoversFrontend = attributes => {
   const { initialRowsLimit, cover_type, title, description, covers } = attributes;
-  const blockClassName = getCoversClassName(cover_type);
 
   const { loadMoreCovers, row } = useCovers(attributes, true);
 
@@ -20,7 +19,7 @@ export const CoversFrontend = attributes => {
   }
 
   return (
-    <section className={blockClassName}>
+    <section className={`block covers-block ${cover_type}-covers-block`}>
       {title &&
         <h2 class="page-section-header" dangerouslySetInnerHTML={{ __html: title }} />
       }
