@@ -2,20 +2,23 @@
 const { registerBlockStyle, unregisterBlockStyle } = wp.blocks;
 const { __ } = wp.i18n;
 
+registerBlockStyle('core/button', {
+  name: 'secondary',
+  label: __('Secondary', 'planet4-blocks-backend'),
+  isDefault: true
+});
+
+registerBlockStyle('core/button', {
+  name: 'cta',
+  label: __('CTA', 'planet4-blocks-backend'),
+});
+
+registerBlockStyle('core/button', {
+  name: 'donate',
+  label: __('Donate', 'planet4-blocks-backend'),
+});
+
 wp.domReady(() => {
-  registerBlockStyle('core/button', {
-    name: 'secondary',
-    label: 'Secondary',
-    isDefault: true
-  });
-  registerBlockStyle('core/button', {
-    name: 'cta',
-    label: 'CTA'
-  });
-  registerBlockStyle('core/button', {
-    name: 'donate',
-    label: 'Donate'
-  });
   unregisterBlockStyle('core/button', 'outline');
   unregisterBlockStyle('core/button', 'fill');
 
