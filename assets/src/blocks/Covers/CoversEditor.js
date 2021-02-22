@@ -13,6 +13,9 @@ import { useCovers } from './useCovers';
 
 const { RichText } = wp.blockEditor;
 const { __ } = wp.i18n;
+const { useSelect } = wp.data;
+
+const POSTS_LIMIT = 50;
 
 const renderEdit = (attributes, toAttribute) => {
   const { initialRowsLimit, posts, tags, cover_type, post_types } = attributes;
@@ -69,9 +72,34 @@ const renderEdit = (attributes, toAttribute) => {
 }
 
 const renderView = (attributes, toAttribute) => {
-  const { initialRowsLimit, cover_type, title, description } = attributes;
+  const { initialRowsLimit, cover_type, title, description, posts } = attributes;
 
-  const { covers, loading, row } = useCovers(attributes);
+  const covers = useSelect(select => {
+    const queryArgs = {
+      post_status: 'publish',
+      suppress_filters: false,
+      numberposts: POSTS_LIMIT,
+    };
+
+    if (posts.length > 0) {
+      queryArgs.include = posts.join(',');
+    }
+
+    const loadedCovers = select('core').getEntityRecords('postType', 'post', queryArgs) || [];
+    return loadedCovers.map(loadedCover => {
+      return {
+        thumbnail: loadedCover.featured_media,
+        link: loadedCover.link,
+        post_title: loadedCover.title.raw,
+        srcset: '',
+        alt_text: loadedCover.title.raw,
+        date_formatted: loadedCover.date,
+        post_excerpt: loadedCover.excerpt.raw,
+      };
+    });
+  }, [posts]);
+
+  const { loading, row } = useCovers(attributes);
 
   const coversProps = {
     covers,
