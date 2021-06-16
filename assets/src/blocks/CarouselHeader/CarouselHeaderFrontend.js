@@ -40,9 +40,10 @@ export const CarouselHeaderFrontend = ({ slides, carousel_autoplay }) => {
       goToPrevSlide
     ];
 
-    // if (isRTL) {
-    //   swipeListeners.reverse();
-    // }
+    const isRTL = document.querySelector('html').dir === 'rtl';
+    if (isRTL) {
+      swipeListeners.reverse();
+    }
 
     hammer.on('swipeleft', swipeListeners[0]);
     hammer.on('swiperight', swipeListeners[1]);
